@@ -10,8 +10,8 @@ This project demonstrates the creation of a RESTful API using the Go programming
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
-- [Contributing](#contributing)
-- [License](#license)
+<!-- - [Contributing](#contributing)
+- [License](#license) -->
 
 ## Introduction
 
