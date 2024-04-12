@@ -30,15 +30,25 @@ This project is a simple yet powerful example of a RESTful API that manages pers
 
 ## Installation
 
-1. Clone the repository: git clone https://github.com/Animesh-roy100/REST-API-Using-Go.git
+1. Clone the repository:
 
-2. Navigate to the project directory: cd rest-api-using-go
+bash git clone https://github.com/Animesh-roy100/REST-API-Using-Go.git
 
-3. Install dependencies: go mod download
+2. Navigate to the project directory:
 
-4. Generate Swagger documentation: swag init
+bash cd rest-api-using-go
 
-5. Run the server: go run main.go
+3. Install dependencies:
+
+bash go mod download
+
+4. Generate Swagger documentation:
+
+bash swag init
+
+5. Run the server:
+
+bash go run main.go
 
 ## Usage
 
@@ -48,10 +58,10 @@ Once the server is running, you can access the Swagger UI at `http://localhost:<
 
 The API documentation is generated using Swagger and can be accessed at the `/swagger/index.html` endpoint. This documentation provides detailed information about each API endpoint, including the expected request format and response structure.
 
-## Contributing
+<!-- ## Contributing
 
 Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) before getting started.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. -->
