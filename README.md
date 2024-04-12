@@ -32,23 +32,33 @@ This project is a simple yet powerful example of a RESTful API that manages pers
 
 1. Clone the repository:
 
-bash git clone https://github.com/Animesh-roy100/REST-API-Using-Go.git
+   ```bash
+   git clone https://github.com/Animesh-roy100/REST-API-Using-Go.git
+   ```
 
 2. Navigate to the project directory:
 
-bash cd rest-api-using-go
+   ```bash
+   cd REST-API-Using-Go
+   ```
 
 3. Install dependencies:
 
-bash go mod download
+   ```bash
+   go mod download
+   ```
 
 4. Generate Swagger documentation:
 
-bash swag init
+   ```bash
+   swag init
+   ```
 
 5. Run the server:
 
-bash go run main.go
+   ```bash
+   go run main.go
+   ```
 
 ## Usage
 
