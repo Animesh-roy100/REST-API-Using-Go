@@ -1,6 +1,9 @@
 package router
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"main.go/handlers"
 )
@@ -21,5 +24,9 @@ func Run() {
 	//Implement the PUT method
 	router.PUT("/persons/:id", handlers.UpdatePersonHandler)
 
-	router.Run(":3000")
+	port := os.Getenv("PORT")
+	fmt.Println("Server listening on :" + port)
+	if err := router.Run(":" + port); err != nil {
+		fmt.Printf("Error on starting server: %v", err)
+	}
 }
