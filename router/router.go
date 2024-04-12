@@ -5,11 +5,16 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	"main.go/handlers"
 )
 
 func Run() {
 	router := gin.New()
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Implement the GET method
 	router.GET("/persons", handlers.ListPersonsHandler)

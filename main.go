@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "main.go/docs"
 	"main.go/initializers"
 	"main.go/router"
 )

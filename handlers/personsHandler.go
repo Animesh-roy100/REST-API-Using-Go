@@ -13,10 +13,26 @@ var persons = []models.Person{
 	{ID: "3", FirstName: "Chirag", LastName: "Agarwalla"},
 }
 
+// @Summary List all persons
+// @Description get all persons
+// @ID list-persons
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.Person
+// @Router /persons [get]
 func ListPersonsHandler(c *gin.Context) {
 	c.JSON(200, persons)
 }
 
+// @Summary Get person details
+// @Description get person details by ID
+// @ID get-person-by-id
+// @Accept json
+// @Produce json
+// @Param id path string true "Person ID"
+// @Success 200 {object} models.Person
+// @Failure 404 {object} map[string]string
+// @Router /persons/{id} [get]
 func GetPersonDetails(c *gin.Context) {
 	id := c.Param(("id"))
 
@@ -30,6 +46,15 @@ func GetPersonDetails(c *gin.Context) {
 	c.JSON(http.StatusNotFound, gin.H{"message": "Person not found"})
 }
 
+// @Summary Create a new person
+// @Description Add a new person to the list
+// @ID create-person
+// @Accept json
+// @Produce json
+// @Param person body models.Person true "Person object to be added"
+// @Success 201 {object} models.Person
+// @Failure 400 {object} map[string]string
+// @Router /persons [post]
 func CreatePersonsHandler(c *gin.Context) {
 	var person models.Person
 
@@ -42,6 +67,15 @@ func CreatePersonsHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Person details created"})
 }
 
+// @Summary Delete a person
+// @Description Delete a person by ID
+// @ID delete-person
+// @Accept json
+// @Produce json
+// @Param id path string true "Person ID"
+// @Success 200 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /persons/{id} [delete]
 func DeletePersonsHandler(c *gin.Context) {
 	id := c.Param("id")
 
@@ -56,6 +90,17 @@ func DeletePersonsHandler(c *gin.Context) {
 	c.JSON(http.StatusNotFound, gin.H{"Message": "Person not found"})
 }
 
+// @Summary Update a person
+// @Description Update a person's details by ID
+// @ID update-person
+// @Accept json
+// @Produce json
+// @Param id path string true "Person ID"
+// @Param person body models.Person true "Person object with updated details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /persons/{id} [put]
 func UpdatePersonHandler(c *gin.Context) {
 	id := c.Param("id")
 
