@@ -8,8 +8,12 @@ definitions:
       lastName:
         type: string
     type: object
+host: localhost:3001
 info:
   contact: {}
+  description: A RESTful API in Go to understand basics
+  title: REST API Using Go
+  version: "1.0"
 paths:
   /persons:
     get:

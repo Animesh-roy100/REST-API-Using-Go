@@ -1,8 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "A RESTful API in Go to understand basics",
+        "title": "REST API Using Go",
+        "contact": {},
+        "version": "1.0"
     },
+    "host": "localhost:3001",
     "paths": {
         "/persons": {
             "get": {

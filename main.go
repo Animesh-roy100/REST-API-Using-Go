@@ -6,6 +6,11 @@ import (
 	"main.go/router"
 )
 
+// @title REST API Using Go
+// @version 1.0
+// @description A RESTful API in Go to understand basics
+
+// @host localhost:3001
 func main() {
 	initializers.LoadEnv()
 	router.Run()
