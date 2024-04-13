@@ -4,6 +4,7 @@ import (
 	_ "main.go/docs"
 	"main.go/initializers"
 	"main.go/router"
+	"main.go/storage"
 )
 
 // @title REST API Using Go
@@ -13,5 +14,6 @@ import (
 // @host localhost:3001
 func main() {
 	initializers.LoadEnv()
+	storage.LoadDatabase()
 	router.Run()
 }
