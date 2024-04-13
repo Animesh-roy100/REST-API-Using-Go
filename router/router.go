@@ -8,6 +8,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
+	"main.go/controllers"
 	"main.go/handlers"
 )
 
@@ -15,6 +16,8 @@ func Run() {
 	router := gin.New()
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	router.POST("/signup", controllers.Signup)
 
 	// Implement the GET method
 	router.GET("/persons", handlers.ListPersonsHandler)
