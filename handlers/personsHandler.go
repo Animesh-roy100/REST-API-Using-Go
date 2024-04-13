@@ -10,12 +10,6 @@ import (
 	"main.go/storage"
 )
 
-// var persons = []models.Person{
-// 	{ID: "1", FirstName: "Animesh", LastName: "Roy"},
-// 	{ID: "2", FirstName: "Bikram", LastName: "Roy"},
-// 	{ID: "3", FirstName: "Chirag", LastName: "Agarwalla"},
-// }
-
 // @Summary List all persons
 // @Description get all persons
 // @ID list-persons

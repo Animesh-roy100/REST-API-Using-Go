@@ -15,7 +15,7 @@ This project demonstrates the creation of a RESTful API using the Go programming
 
 ## Introduction
 
-This project is a simple yet powerful example of a RESTful API that manages person data. It includes CRUD (Create, Read, Update, Delete) operations for managing person data, all documented using Swagger.
+This project is a simple yet powerful example of a RESTful API that manages person data. It includes CRUD (Create, Read, Update, Delete) operations for managing person data, all documented using Swagger. Data will be stored in SQLite Database with the help of GORM (Object-Relational Mapping).
 
 ## Features
 
@@ -26,6 +26,7 @@ This project is a simple yet powerful example of a RESTful API that manages pers
 
 - Go 1.16 or later
 - Gin framework
+- SQLite Database with GORM
 - Swag for Swagger documentation
 
 ## Installation
