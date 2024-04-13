@@ -1,17 +1,20 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"main.go/models"
+	"main.go/storage"
 )
 
-var persons = []models.Person{
-	{ID: "1", FirstName: "Animesh", LastName: "Roy"},
-	{ID: "2", FirstName: "Bikram", LastName: "Roy"},
-	{ID: "3", FirstName: "Chirag", LastName: "Agarwalla"},
-}
+// var persons = []models.Person{
+// 	{ID: "1", FirstName: "Animesh", LastName: "Roy"},
+// 	{ID: "2", FirstName: "Bikram", LastName: "Roy"},
+// 	{ID: "3", FirstName: "Chirag", LastName: "Agarwalla"},
+// }
 
 // @Summary List all persons
 // @Description get all persons
@@ -21,6 +24,11 @@ var persons = []models.Person{
 // @Success 200 {array} models.Person
 // @Router /persons [get]
 func ListPersonsHandler(c *gin.Context) {
+	var persons []models.Person
+	if err := storage.DB.Find(&persons).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching persons"})
+		return
+	}
 	c.JSON(200, persons)
 }
 
@@ -34,16 +42,21 @@ func ListPersonsHandler(c *gin.Context) {
 // @Failure 404 {object} map[string]string
 // @Router /persons/{id} [get]
 func GetPersonDetails(c *gin.Context) {
-	id := c.Param(("id"))
+	id := c.Param("id")
 
-	for _, val := range persons {
-		if val.ID == id {
-			c.JSON(200, val)
-			return
+	var person models.Person
+	result := storage.DB.First(&person, id)
+
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"message": "Person not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching person details"})
 		}
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{"message": "Person not found"})
+	c.JSON(200, person)
 }
 
 // @Summary Create a new person
@@ -63,8 +76,13 @@ func CreatePersonsHandler(c *gin.Context) {
 		return
 	}
 
-	persons = append(persons, person)
-	c.JSON(http.StatusCreated, gin.H{"message": "Person details created"})
+	result := storage.DB.Create(&person)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error creating person"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Person details created", "data": person})
 }
 
 // @Summary Delete a person
@@ -79,15 +97,17 @@ func CreatePersonsHandler(c *gin.Context) {
 func DeletePersonsHandler(c *gin.Context) {
 	id := c.Param("id")
 
-	for i, a := range persons {
-		if a.ID == id {
-			persons = append(persons[:i], persons[i+1:]...)
-			c.JSON(200, gin.H{"message": "Person removed"})
-			return
+	result := storage.DB.Delete(&models.Person{}, id)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"message": "Person not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error deleting person"})
 		}
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{"Message": "Person not found"})
+	c.JSON(http.StatusOK, gin.H{"message": "Person removed"})
 }
 
 // @Summary Update a person
@@ -111,17 +131,28 @@ func UpdatePersonHandler(c *gin.Context) {
 		return
 	}
 
-	for i, person := range persons {
-		if person.ID == id {
-			if updatePerson.FirstName != "" {
-				persons[i].FirstName = updatePerson.FirstName
-			}
-			if updatePerson.LastName != "" {
-				persons[i].LastName = updatePerson.LastName
-			}
-			c.JSON(200, gin.H{"message": "Person updates"})
-			return
+	var person models.Person
+	if result := storage.DB.First(&person, id); result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"message": "Person not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching person"})
 		}
+		return
 	}
-	c.JSON(http.StatusNotFound, gin.H{"message": "Person not found"})
+
+	if updatePerson.FirstName != "" {
+		person.FirstName = updatePerson.FirstName
+	}
+	if updatePerson.LastName != "" {
+		person.LastName = updatePerson.LastName
+	}
+
+	result := storage.DB.Save(&person)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error updating person"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Person updates", "data": person})
 }
