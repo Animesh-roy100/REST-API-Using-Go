@@ -18,6 +18,7 @@ func Run() {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.POST("/signup", controllers.Signup)
+	router.POST("/login", controllers.Login)
 
 	// Implement the GET method
 	router.GET("/persons", handlers.ListPersonsHandler)

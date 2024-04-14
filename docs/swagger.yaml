@@ -1,11 +1,40 @@
 definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
   models.Person:
     properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
       firstName:
         type: string
       id:
-        type: string
+        type: integer
       lastName:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updatedAt:
         type: string
     type: object
 host: localhost:3001
@@ -15,6 +44,37 @@ info:
   title: REST API Using Go
   version: "1.0"
 paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user by logging in with email and password, and generate
+        JWT token for authorization
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully logged in
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid email or password
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: User Login
+      tags:
+      - user
   /persons:
     get:
       consumes:
@@ -31,6 +91,8 @@ paths:
               $ref: '#/definitions/models.Person'
             type: array
       summary: List all persons
+      tags:
+      - person
     post:
       consumes:
       - application/json
@@ -57,6 +119,8 @@ paths:
               type: string
             type: object
       summary: Create a new person
+      tags:
+      - person
   /persons/{id}:
     delete:
       consumes:
@@ -85,6 +149,8 @@ paths:
               type: string
             type: object
       summary: Delete a person
+      tags:
+      - person
     get:
       consumes:
       - application/json
@@ -110,6 +176,8 @@ paths:
               type: string
             type: object
       summary: Get person details
+      tags:
+      - person
     put:
       consumes:
       - application/json
@@ -149,4 +217,34 @@ paths:
               type: string
             type: object
       summary: Update a person
+      tags:
+      - person
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account by signing up with email and password
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully created user
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: User Signup
+      tags:
+      - user
 swagger: "2.0"

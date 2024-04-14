@@ -12,6 +12,7 @@ import (
 
 // @Summary List all persons
 // @Description get all persons
+// @Tags person
 // @ID list-persons
 // @Accept json
 // @Produce json
@@ -28,6 +29,7 @@ func ListPersonsHandler(c *gin.Context) {
 
 // @Summary Get person details
 // @Description get person details by ID
+// @Tags person
 // @ID get-person-by-id
 // @Accept json
 // @Produce json
@@ -55,6 +57,7 @@ func GetPersonDetails(c *gin.Context) {
 
 // @Summary Create a new person
 // @Description Add a new person to the list
+// @Tags person
 // @ID create-person
 // @Accept json
 // @Produce json
@@ -81,6 +84,7 @@ func CreatePersonsHandler(c *gin.Context) {
 
 // @Summary Delete a person
 // @Description Delete a person by ID
+// @Tags person
 // @ID delete-person
 // @Accept json
 // @Produce json
@@ -106,6 +110,7 @@ func DeletePersonsHandler(c *gin.Context) {
 
 // @Summary Update a person
 // @Description Update a person's details by ID
+// @Tags person
 // @ID update-person
 // @Accept json
 // @Produce json
