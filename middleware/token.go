@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"fmt"
+	"errors"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -25,7 +25,7 @@ func CreateToken(username string) (string, error) {
 }
 
 func VerifyToken(tokenString string) error {
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
 		return secretKey, nil
 	})
 
@@ -34,7 +34,7 @@ func VerifyToken(tokenString string) error {
 	}
 
 	if !token.Valid {
-		return fmt.Errorf("invalid token")
+		return errors.New("invalid token")
 	}
 
 	return nil

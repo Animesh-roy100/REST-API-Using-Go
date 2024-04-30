@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -12,6 +11,9 @@ import (
 	"main.go/models"
 	"main.go/storage"
 )
+
+const bcryptCost = 10
+const tokenExpirationDays = 30
 
 // @Summary User Signup
 // @Description Create a new user account by signing up with email and password
@@ -24,17 +26,15 @@ import (
 // @Router /signup [post]
 func Signup(c *gin.Context) {
 	// Get the email/pass off req Body
-
 	var user models.User
 
 	if c.ShouldBindJSON(&user) != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read body"})
-
 		return
 	}
 
 	// Hash the password
-	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcryptCost)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to hash password"})
@@ -51,7 +51,6 @@ func Signup(c *gin.Context) {
 	}
 
 	// Respond
-	fmt.Println("user created")
 	c.JSON(http.StatusOK, gin.H{"message": "user created", "user": newUser})
 }
 
@@ -95,7 +94,7 @@ func Login(c *gin.Context) {
 	// Generate a JWT token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": user.ID,
-		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
+		"exp": time.Now().Add(time.Hour * 24 * tokenExpirationDays).Unix(),
 	})
 
 	// Sign and get the complete encoded token as a string using the secret
@@ -108,7 +107,7 @@ func Login(c *gin.Context) {
 
 	// Respond
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
+	c.SetCookie("Authorization", tokenString, 3600*24*tokenExpirationDays, "", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{"message": "login successful"})
 }

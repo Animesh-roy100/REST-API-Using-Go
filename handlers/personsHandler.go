@@ -49,7 +49,6 @@ func GetPersonDetails(c *gin.Context) {
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching person details"})
 		}
-		return
 	}
 
 	c.JSON(200, person)

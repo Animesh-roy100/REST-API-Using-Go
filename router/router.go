@@ -30,7 +30,7 @@ func Run() {
 	// Implement the DELETE method
 	router.DELETE("/persons/:id", handlers.DeletePersonsHandler)
 
-	//Implement the PUT method
+	// Implement the PUT method
 	router.PUT("/persons/:id", handlers.UpdatePersonHandler)
 
 	port := os.Getenv("PORT")
