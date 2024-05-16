@@ -7,13 +7,16 @@ import (
 	"main.go/storage"
 )
 
+func init() {
+	initializers.LoadEnv()
+	storage.LoadDatabase()
+}
+
 // @title REST API Using Go
 // @version 1.0
 // @description A RESTful API in Go to understand basics
 
 // @host localhost:3001
 func main() {
-	initializers.LoadEnv()
-	storage.LoadDatabase()
 	router.Run()
 }
