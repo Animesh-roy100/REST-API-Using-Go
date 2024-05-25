@@ -3,6 +3,8 @@ package storage
 import (
 	"fmt"
 
+	_ "github.com/golang-migrate/migrate/v4/database/sqlite3"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"main.go/models"
@@ -25,6 +27,22 @@ func LoadDatabase() {
 
 	DB.AutoMigrate(&models.Person{})
 	DBUser.AutoMigrate(&models.User{})
+
+	// Apply migration
+	// m, err := migrate.New(
+	// 	"file://migrations",
+	// 	"sqlite3://test.db",
+	// )
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// err = m.Up()
+	// if err != nil && err != migrate.ErrNoChange {
+	// 	panic(err)
+	// }
+
+	// fmt.Println("migration applied")
 
 	fmt.Println("Database connected")
 }

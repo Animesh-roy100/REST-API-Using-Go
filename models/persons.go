@@ -6,4 +6,5 @@ type Person struct {
 	gorm.Model
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
+	// Email     string `json:"email"`
 }
